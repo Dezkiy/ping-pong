@@ -21,8 +21,6 @@
     - name: Create Network
       docker_network:
         name: skynet
-        #network_mode:
-        # - driver: bridge
 
     - name: Start server
       docker_container:
