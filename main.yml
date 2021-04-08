@@ -18,6 +18,12 @@
           path: client/
           pull: yes
 
+    - name: Create Network
+      docker_network:
+        name: skynet
+        #network_mode:
+        # - driver: bridge
+
     - name: Start server
       docker_container:
         name: server
@@ -28,7 +34,7 @@
         ports: 
           - 80:80
         networks:
-          - name: 2gis
+          - name: skynet
         purge_networks: yes
         networks_cli_compatible: no 
 
@@ -40,6 +46,6 @@
         tty: yes
         interactive: yes
         networks:
-          - name: 2gis
+          - name: skynet
         purge_networks: yes
         networks_cli_compatible: no
