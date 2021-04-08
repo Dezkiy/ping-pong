@@ -1,0 +1,45 @@
+---
+- hosts: current_host
+  gather_facts: no
+  tasks:
+    - name: Build image server
+      docker_image:
+        name: server_pong
+        source: build   
+        build: 
+          path: server/
+          pull: yes
+    
+    - name: Build image client
+      docker_image:
+        name: client_ping
+        source: build
+        build:
+          path: client/
+          pull: yes
+
+    - name: Start server
+      docker_container:
+        name: server
+        image: server_pong
+        auto_remove: yes
+        tty: yes
+        interactive: yes
+        ports: 
+          - 80:80
+        networks:
+          - name: 2gis
+        purge_networks: yes
+        networks_cli_compatible: no 
+
+    - name: Start client
+      docker_container:
+        name: client
+        image: client_ping
+        auto_remove: yes
+        tty: yes
+        interactive: yes
+        networks:
+          - name: 2gis
+        purge_networks: yes
+        networks_cli_compatible: no
